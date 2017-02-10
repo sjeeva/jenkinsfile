@@ -1,0 +1,28 @@
+node {
+  stage ("start") {
+    composeList = "${env.DEVPROJROOTURL}"
+    urls = composeList.tokenize(';')
+    for ( url in urls ) {
+      print "url $url"
+      items = url.split("/blob/master/")
+      // Extract the git URL and project name
+      def gitUrl = "${items[0]}.git"
+      def projectName = items[0].tokenize('/')[3]
+      print "git: $gitUrl"
+      print "Project: $projectName"
+      
+      // Extract the compose file with path
+      def composePath = items[1]
+      print "compose: $composePath"
+      
+      for ( item in items)
+        print "item $item"
+    }
+  }
+  for (int i = 0; i < repos.size(); i++) {
+    def repo = repos.get(i)  
+    stage ("Repo ($repo)") {  
+      echo 'Hello World - $i - $reps'
+    }
+  }
+}
